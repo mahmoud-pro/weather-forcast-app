@@ -7,7 +7,7 @@ config = dotenv_values(".env")
 key = os.getenv("API_KEY")
 
 
-def get_data(place, forcast_days, kind):
+def get_data(place, forcast_days):
     url = f"https://api.openweathermap.org/data/2.5/forecast?q={place}&appid={key}"
     res = r.get(url)
     data = res.json()
@@ -15,13 +15,8 @@ def get_data(place, forcast_days, kind):
     number_values = 8 * forcast_days
     filter_data = filter_data[:number_values]
 
-    if kind == "Temperature":
-        filter_data = [dt["main"]["temp"] for dt in filter_data]
-    if kind == "Sky":
-        filter_data = [dt["weather"][0]["main"] for dt in filter_data]
-
     return filter_data
 
 
 if __name__ == "__main__":
-    print(get_data(place="cairo", forcast_days=3, kind="Temperature"))
+    print(get_data(place="cairo", forcast_days=3))
